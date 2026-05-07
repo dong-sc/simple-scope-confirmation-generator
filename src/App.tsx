@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { ActionBar } from './components/ActionBar';
+import { AuthorPromoSection } from './components/AuthorPromoSection';
 import { Header } from './components/Header';
 import { ScopeConfirmationForm } from './components/ScopeConfirmationForm';
 import { ScopeConfirmationPreview } from './components/ScopeConfirmationPreview';
@@ -71,6 +72,7 @@ export default function App() {
           <ScopeConfirmationPreview data={scopeData} />
         </section>
         <SupportSection />
+        <AuthorPromoSection />
       </main>
     </>
   );
