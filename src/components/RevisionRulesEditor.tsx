@@ -8,6 +8,15 @@ interface RevisionRulesEditorProps {
   onChange: (data: ScopeConfirmationData) => void;
 }
 
+function parseNumberInput(value: string): number | '' {
+  if (value.trim() === '') {
+    return '';
+  }
+
+  const parsedValue = Number(value);
+  return Number.isFinite(parsedValue) ? Math.max(0, parsedValue) : 0;
+}
+
 export function RevisionRulesEditor({
   data,
   onChange,
@@ -31,7 +40,7 @@ export function RevisionRulesEditor({
             value={data.revisionRules.includedRevisionCount}
             onChange={(event) =>
               updateRules({
-                includedRevisionCount: Math.max(0, Number(event.target.value) || 0),
+                includedRevisionCount: parseNumberInput(event.target.value),
               })
             }
           />

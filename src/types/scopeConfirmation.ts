@@ -1,3 +1,5 @@
+export type NumericInputValue = number | '';
+
 export interface ScopeItem {
   id: string;
   name: string;
@@ -51,7 +53,7 @@ export interface ClientInfo {
 }
 
 export interface RevisionRules {
-  includedRevisionCount: number;
+  includedRevisionCount: NumericInputValue;
   revisionScope: string;
   extraRevisionPolicy: string;
   changeRequestPolicy: string;
