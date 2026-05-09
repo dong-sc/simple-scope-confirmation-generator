@@ -39,25 +39,25 @@ export function ClientSection({ data, onChange }: ClientSectionProps) {
             placeholder="可留空"
           />
         </label>
-        <CollapsibleFieldGroup title="聯絡方式、地址、網站">
+        <label>
+          Email
+          <input
+            type="email"
+            value={data.client.email}
+            onChange={(event) => updateClient({ email: event.target.value })}
+            placeholder="可留空"
+          />
+        </label>
+        <label>
+          電話
+          <input
+            value={data.client.phone}
+            onChange={(event) => updateClient({ phone: event.target.value })}
+            placeholder="可留空"
+          />
+        </label>
+        <CollapsibleFieldGroup title="地址、網站">
           <div className="field-grid two-columns nested-field-grid">
-            <label>
-              Email
-              <input
-                type="email"
-                value={data.client.email}
-                onChange={(event) => updateClient({ email: event.target.value })}
-                placeholder="可留空"
-              />
-            </label>
-            <label>
-              電話
-              <input
-                value={data.client.phone}
-                onChange={(event) => updateClient({ phone: event.target.value })}
-                placeholder="可留空"
-              />
-            </label>
             <label className="span-two">
               地址
               <input
