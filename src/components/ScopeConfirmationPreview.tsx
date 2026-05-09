@@ -189,6 +189,7 @@ export function ScopeConfirmationPreview({
 
         <section className="preview-party-grid">
           <div className="preview-party">
+            <h3>服務提供者</h3>
             <strong>{data.provider.company || data.provider.name || '服務提供者'}</strong>
             <AlignedDetailLine label="聯絡人" value={data.provider.name} />
             <AlignedDetailLine label="公司名稱" value={data.provider.company} />
