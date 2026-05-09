@@ -27,6 +27,7 @@ export function Header() {
         <p className="intro">
           一個給自由工作者與小型工作室使用的服務範圍確認單製作工具。開始工作前，先把服務內容、交付項目、修改次數、不包含範圍與額外需求處理方式整理清楚，降低後續溝通誤會。
         </p>
+        <p className="desktop-hint">建議使用電腦版操作，填寫與預覽會更直覺。</p>
         <nav className="header-tool-shortcuts" aria-label="其他接案文件工具">
           {shortcuts.map((shortcut) => (
             <a
