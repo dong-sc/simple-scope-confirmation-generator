@@ -40,6 +40,7 @@ export interface ProviderInfo {
   phone: string;
   address: string;
   website: string;
+  logoImage: string;
 }
 
 export interface ClientInfo {

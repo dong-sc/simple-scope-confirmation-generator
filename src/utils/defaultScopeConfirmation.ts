@@ -34,6 +34,7 @@ export function createDefaultScopeConfirmationData(): ScopeConfirmationData {
       phone: '',
       address: '',
       website: '',
+      logoImage: '',
     },
     client: {
       name: '',
