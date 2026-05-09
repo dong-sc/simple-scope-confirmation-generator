@@ -1,4 +1,5 @@
 import type { ClientInfo, ScopeConfirmationData } from '../types/scopeConfirmation';
+import { CollapsibleFieldGroup } from './CollapsibleFieldGroup';
 
 interface ClientSectionProps {
   data: ScopeConfirmationData;
@@ -38,39 +39,43 @@ export function ClientSection({ data, onChange }: ClientSectionProps) {
             placeholder="可留空"
           />
         </label>
-        <label>
-          Email
-          <input
-            type="email"
-            value={data.client.email}
-            onChange={(event) => updateClient({ email: event.target.value })}
-            placeholder="可留空"
-          />
-        </label>
-        <label>
-          電話
-          <input
-            value={data.client.phone}
-            onChange={(event) => updateClient({ phone: event.target.value })}
-            placeholder="可留空"
-          />
-        </label>
-        <label>
-          地址
-          <input
-            value={data.client.address}
-            onChange={(event) => updateClient({ address: event.target.value })}
-            placeholder="可留空"
-          />
-        </label>
-        <label className="span-two">
-          網站
-          <input
-            value={data.client.website}
-            onChange={(event) => updateClient({ website: event.target.value })}
-            placeholder="可留空"
-          />
-        </label>
+        <CollapsibleFieldGroup title="聯絡方式、地址、網站">
+          <div className="field-grid two-columns nested-field-grid">
+            <label>
+              Email
+              <input
+                type="email"
+                value={data.client.email}
+                onChange={(event) => updateClient({ email: event.target.value })}
+                placeholder="可留空"
+              />
+            </label>
+            <label>
+              電話
+              <input
+                value={data.client.phone}
+                onChange={(event) => updateClient({ phone: event.target.value })}
+                placeholder="可留空"
+              />
+            </label>
+            <label className="span-two">
+              地址
+              <input
+                value={data.client.address}
+                onChange={(event) => updateClient({ address: event.target.value })}
+                placeholder="可留空"
+              />
+            </label>
+            <label className="span-two">
+              網站
+              <input
+                value={data.client.website}
+                onChange={(event) => updateClient({ website: event.target.value })}
+                placeholder="可留空"
+              />
+            </label>
+          </div>
+        </CollapsibleFieldGroup>
       </div>
     </section>
   );

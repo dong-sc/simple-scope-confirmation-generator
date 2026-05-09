@@ -1,4 +1,5 @@
 import type { ProviderInfo, ScopeConfirmationData } from '../types/scopeConfirmation';
+import { CollapsibleFieldGroup } from './CollapsibleFieldGroup';
 
 interface ProviderSectionProps {
   data: ScopeConfirmationData;
@@ -103,50 +104,56 @@ export function ProviderSection({ data, onChange }: ProviderSectionProps) {
             onChange={(event) => updateProvider({ phone: event.target.value })}
           />
         </label>
-        <label>
-          地址
-          <input
-            value={data.provider.address}
-            onChange={(event) => updateProvider({ address: event.target.value })}
-            placeholder="可留空"
-          />
-        </label>
-        <label className="span-two">
-          網站
-          <input
-            value={data.provider.website}
-            onChange={(event) => updateProvider({ website: event.target.value })}
-            placeholder="可留空"
-          />
-        </label>
-        <div className="image-upload-card span-two">
-          <label>
-            服務提供者 Logo
-            <input
-              type="file"
-              accept="image/png,image/jpeg,image/webp"
-              onChange={(event) =>
-                void handleLogoUpload(event.currentTarget.files?.[0] ?? null)
-              }
-            />
-          </label>
-          <p className="upload-note">建議使用橫式或透明背景 Logo，系統會限制在預覽格內。</p>
-          <div className="logo-upload-preview" aria-label="服務提供者 Logo 預覽">
-            {data.provider.logoImage ? (
-              <img src={data.provider.logoImage} alt="服務提供者 Logo" />
-            ) : (
-              <span>尚未上傳</span>
-            )}
+        <CollapsibleFieldGroup title="LOGO、地址、網站">
+          <div className="field-grid two-columns nested-field-grid">
+            <div className="image-upload-card span-two">
+              <label>
+                服務提供者 Logo
+                <input
+                  type="file"
+                  accept="image/png,image/jpeg,image/webp"
+                  onChange={(event) =>
+                    void handleLogoUpload(event.currentTarget.files?.[0] ?? null)
+                  }
+                />
+              </label>
+              <p className="upload-note">
+                建議使用橫式或透明背景 Logo，系統會限制在預覽格內。
+              </p>
+              <div className="logo-upload-preview" aria-label="服務提供者 Logo 預覽">
+                {data.provider.logoImage ? (
+                  <img src={data.provider.logoImage} alt="服務提供者 Logo" />
+                ) : (
+                  <span>尚未上傳</span>
+                )}
+              </div>
+              <button
+                className="text-button danger"
+                type="button"
+                disabled={!data.provider.logoImage}
+                onClick={() => updateProvider({ logoImage: '' })}
+              >
+                移除 Logo
+              </button>
+            </div>
+            <label className="span-two">
+              地址
+              <input
+                value={data.provider.address}
+                onChange={(event) => updateProvider({ address: event.target.value })}
+                placeholder="可留空"
+              />
+            </label>
+            <label className="span-two">
+              網站
+              <input
+                value={data.provider.website}
+                onChange={(event) => updateProvider({ website: event.target.value })}
+                placeholder="可留空"
+              />
+            </label>
           </div>
-          <button
-            className="text-button danger"
-            type="button"
-            disabled={!data.provider.logoImage}
-            onClick={() => updateProvider({ logoImage: '' })}
-          >
-            移除 Logo
-          </button>
-        </div>
+        </CollapsibleFieldGroup>
       </div>
     </section>
   );
