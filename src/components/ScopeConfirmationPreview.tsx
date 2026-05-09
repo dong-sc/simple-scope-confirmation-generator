@@ -169,25 +169,26 @@ export function ScopeConfirmationPreview({
             <p className="preview-label">Scope Confirmation</p>
             <h2>{data.title || '服務範圍確認單'}</h2>
           </div>
-          <div className="preview-meta">
-            <DetailLine label="編號" value={data.confirmationNumber} />
-            <DetailLine label="報價單" value={data.relatedQuoteNumber} />
-            <DetailLine label="專案" value={data.projectName} />
-            <DetailLine label="類型" value={data.projectType} />
-            <DetailLine label="確認日" value={data.issueDate} />
-            <DetailLine label="開始" value={data.timelinePaymentNote.startDate} />
-            <DetailLine label="完成" value={data.timelinePaymentNote.endDate} />
+          <div className="preview-header-side">
+            {data.provider.logoImage ? (
+              <div className="preview-logo-box">
+                <img src={data.provider.logoImage} alt="Logo" />
+              </div>
+            ) : null}
+            <div className="preview-meta">
+              <DetailLine label="編號" value={data.confirmationNumber} />
+              <DetailLine label="報價單" value={data.relatedQuoteNumber} />
+              <DetailLine label="專案" value={data.projectName} />
+              <DetailLine label="類型" value={data.projectType} />
+              <DetailLine label="確認日" value={data.issueDate} />
+              <DetailLine label="開始" value={data.timelinePaymentNote.startDate} />
+              <DetailLine label="完成" value={data.timelinePaymentNote.endDate} />
+            </div>
           </div>
         </header>
 
         <section className="preview-party-grid">
           <div className="preview-party">
-            <h3>服務提供者</h3>
-            <div className="preview-logo-box">
-              {data.provider.logoImage ? (
-                <img src={data.provider.logoImage} alt="服務提供者 Logo" />
-              ) : null}
-            </div>
             <strong>{data.provider.company || data.provider.name || '服務提供者'}</strong>
             <AlignedDetailLine label="聯絡人" value={data.provider.name} />
             <AlignedDetailLine label="公司名稱" value={data.provider.company} />
