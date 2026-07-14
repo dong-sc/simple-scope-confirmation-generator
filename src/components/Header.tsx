@@ -3,18 +3,18 @@ import { legalDisclaimer } from '../utils/defaultScopeConfirmation';
 const shortcuts = [
   {
     label: '報價單',
-    href: 'https://dong-sc.github.io/simple-quote-generator/',
-    current: false,
-  },
-  {
-    label: '請款單',
-    href: 'https://dong-sc.github.io/simple-payment-request-generator/',
+    href: 'https://quote.donglinphoto.com/',
     current: false,
   },
   {
     label: '服務範圍確認',
-    href: 'https://dong-sc.github.io/simple-scope-confirmation-generator/',
+    href: 'https://scope.donglinphoto.com/',
     current: true,
+  },
+  {
+    label: '請款單',
+    href: 'https://payment.donglinphoto.com/',
+    current: false,
   },
 ];
 
@@ -22,7 +22,7 @@ export function Header() {
   return (
     <header className="site-header">
       <div>
-        <p className="eyebrow">Simple Work Tools #3</p>
+        <p className="eyebrow">Dong Tools · Scope</p>
         <h1>服務範圍確認單製作工具</h1>
         <p className="intro">
           一個給自由工作者與小型工作室使用的服務範圍確認單製作工具。開始工作前，先把服務內容、交付項目、修改次數、不包含範圍與額外需求處理方式整理清楚，降低後續溝通誤會。

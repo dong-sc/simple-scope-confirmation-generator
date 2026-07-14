@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { ActionBar } from './components/ActionBar';
 import { AuthorPromoSection } from './components/AuthorPromoSection';
+import { DongToolsBar } from './components/DongToolsBar';
 import { Header } from './components/Header';
 import { ScopeConfirmationForm } from './components/ScopeConfirmationForm';
 import { ScopeConfirmationPreview } from './components/ScopeConfirmationPreview';
@@ -57,6 +58,7 @@ export default function App() {
 
   return (
     <>
+      <DongToolsBar />
       <Header />
       <main className="app-shell">
         <section className="workspace" aria-label="服務範圍確認單製作工作區">
