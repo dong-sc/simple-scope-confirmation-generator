@@ -6,6 +6,7 @@ import { Header } from './components/Header';
 import { ScopeConfirmationForm } from './components/ScopeConfirmationForm';
 import { ScopeConfirmationPreview } from './components/ScopeConfirmationPreview';
 import { SupportSection } from './components/SupportSection';
+import { VisitorCounter } from './components/VisitorCounter';
 import type { ScopeConfirmationData } from './types/scopeConfirmation';
 import {
   clearScopeConfirmationData,
@@ -75,6 +76,7 @@ export default function App() {
         </section>
         <SupportSection />
         <AuthorPromoSection />
+        <VisitorCounter />
       </main>
     </>
   );
