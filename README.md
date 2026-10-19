@@ -145,3 +145,8 @@ git push -u origin main
 ```text
 https://dong-sc.github.io/simple-scope-confirmation-generator/
 ```
+
+
+## 靜態 HTML
+
+`npm run build` 會把同一個 React 表單的空白預設狀態預先輸出至 HTML，讓工具標題、欄位與相關工具連結可直接讀取並穩定首屏版面。預先輸出的表單在 JavaScript 還原本機草稿前不可輸入；建置不讀取瀏覽器草稿或使用者檔案，也不需要伺服器 runtime。
