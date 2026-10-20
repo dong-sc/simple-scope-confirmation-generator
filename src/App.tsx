@@ -29,6 +29,10 @@ export default function App() {
   const [copyMessage, setCopyMessage] = useState('');
 
   useEffect(() => {
+    document.getElementById('root')?.removeAttribute('inert');
+  }, []);
+
+  useEffect(() => {
     saveScopeConfirmationData(scopeData);
   }, [scopeData]);
 
