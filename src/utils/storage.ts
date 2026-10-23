@@ -3,11 +3,18 @@ import { createDefaultScopeConfirmationData } from './defaultScopeConfirmation';
 
 const storageKey = 'simple-scope-confirmation-generator.scope-data';
 
+// Do not let mount autosave overwrite a draft that could not be read.
+let preserveUnreadDraft = false;
+
 function normalizeScopeConfirmationData(value: unknown): ScopeConfirmationData {
   const fallback = createDefaultScopeConfirmationData();
 
-  if (!value || typeof value !== 'object') {
-    return fallback;
+  if (!value || typeof value !== 'object' || Array.isArray(value)) {
+    throw new Error('Invalid stored draft');
+  }
+
+  if ('title' in value && typeof value.title !== 'string') {
+    throw new Error('Invalid stored draft title');
   }
 
   const data = value as Partial<ScopeConfirmationData>;
@@ -50,11 +57,14 @@ export function loadScopeConfirmationData(): ScopeConfirmationData {
 
     return normalizeScopeConfirmationData(JSON.parse(storedValue));
   } catch {
+    preserveUnreadDraft = true;
     return createDefaultScopeConfirmationData();
   }
 }
 
 export function saveScopeConfirmationData(data: ScopeConfirmationData): boolean {
+  if (preserveUnreadDraft) return false;
+
   try {
     localStorage.setItem(storageKey, JSON.stringify(data));
     return true;
@@ -65,6 +75,8 @@ export function saveScopeConfirmationData(data: ScopeConfirmationData): boolean 
 }
 
 export function clearScopeConfirmationData(): ScopeConfirmationData {
+  // An explicit reset authorizes replacing an unread draft.
+  preserveUnreadDraft = false;
   try {
     localStorage.removeItem(storageKey);
   } catch {
