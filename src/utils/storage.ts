@@ -54,11 +54,21 @@ export function loadScopeConfirmationData(): ScopeConfirmationData {
   }
 }
 
-export function saveScopeConfirmationData(data: ScopeConfirmationData): void {
-  localStorage.setItem(storageKey, JSON.stringify(data));
+export function saveScopeConfirmationData(data: ScopeConfirmationData): boolean {
+  try {
+    localStorage.setItem(storageKey, JSON.stringify(data));
+    return true;
+  } catch {
+    // Keep the current document usable when browser storage is unavailable or full.
+    return false;
+  }
 }
 
 export function clearScopeConfirmationData(): ScopeConfirmationData {
-  localStorage.removeItem(storageKey);
+  try {
+    localStorage.removeItem(storageKey);
+  } catch {
+    // Reset the in-memory document even when browser storage is unavailable.
+  }
   return createDefaultScopeConfirmationData();
 }

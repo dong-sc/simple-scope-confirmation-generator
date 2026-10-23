@@ -27,13 +27,14 @@ export default function App() {
     loadScopeConfirmationData(),
   );
   const [copyMessage, setCopyMessage] = useState('');
+  const [draftSaved, setDraftSaved] = useState(true);
 
   useEffect(() => {
     document.getElementById('root')?.removeAttribute('inert');
   }, []);
 
   useEffect(() => {
-    saveScopeConfirmationData(scopeData);
+    setDraftSaved(saveScopeConfirmationData(scopeData));
   }, [scopeData]);
 
   function handleClear() {
@@ -68,6 +69,11 @@ export default function App() {
       <main className="app-shell">
         <section className="workspace" aria-label="服務範圍確認單製作工作區">
           <div className="form-pane">
+            {!draftSaved && (
+              <p role="alert">
+                草稿無法儲存在此瀏覽器；目前仍可編輯與匯出。請先匯出或列印，關閉頁面後本次變更可能遺失。
+              </p>
+            )}
             <ActionBar
               copyMessage={copyMessage}
               onClear={handleClear}
