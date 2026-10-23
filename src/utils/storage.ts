@@ -5,6 +5,7 @@ const storageKey = 'simple-scope-confirmation-generator.scope-data';
 
 // Do not let mount autosave overwrite a draft that could not be read.
 let preserveUnreadDraft = false;
+let expectedStoredValue: string | null | undefined;
 
 function normalizeScopeConfirmationData(value: unknown): ScopeConfirmationData {
   const fallback = createDefaultScopeConfirmationData();
@@ -51,6 +52,7 @@ function normalizeScopeConfirmationData(value: unknown): ScopeConfirmationData {
 export function loadScopeConfirmationData(): ScopeConfirmationData {
   try {
     const storedValue = localStorage.getItem(storageKey);
+    expectedStoredValue = storedValue;
     if (!storedValue) {
       return createDefaultScopeConfirmationData();
     }
@@ -66,7 +68,14 @@ export function saveScopeConfirmationData(data: ScopeConfirmationData): boolean 
   if (preserveUnreadDraft) return false;
 
   try {
-    localStorage.setItem(storageKey, JSON.stringify(data));
+    // Best-effort conflict detection; localStorage has no atomic compare-and-swap.
+    if (localStorage.getItem(storageKey) !== expectedStoredValue) {
+      preserveUnreadDraft = true;
+      return false;
+    }
+    const serialized = JSON.stringify(data);
+    localStorage.setItem(storageKey, serialized);
+    expectedStoredValue = serialized;
     return true;
   } catch {
     // Keep the current document usable when browser storage is unavailable or full.
@@ -79,6 +88,7 @@ export function clearScopeConfirmationData(): ScopeConfirmationData {
   preserveUnreadDraft = false;
   try {
     localStorage.removeItem(storageKey);
+    expectedStoredValue = null;
   } catch {
     // Reset the in-memory document even when browser storage is unavailable.
   }
