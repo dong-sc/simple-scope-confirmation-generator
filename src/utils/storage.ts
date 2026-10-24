@@ -3,11 +3,19 @@ import { createDefaultScopeConfirmationData } from './defaultScopeConfirmation';
 
 const storageKey = 'simple-scope-confirmation-generator.scope-data';
 
+// Do not let mount autosave overwrite a draft that could not be read.
+let preserveUnreadDraft = false;
+let expectedStoredValue: string | null | undefined;
+
 function normalizeScopeConfirmationData(value: unknown): ScopeConfirmationData {
   const fallback = createDefaultScopeConfirmationData();
 
-  if (!value || typeof value !== 'object') {
-    return fallback;
+  if (!value || typeof value !== 'object' || Array.isArray(value)) {
+    throw new Error('Invalid stored draft');
+  }
+
+  if ('title' in value && typeof value.title !== 'string') {
+    throw new Error('Invalid stored draft title');
   }
 
   const data = value as Partial<ScopeConfirmationData>;
@@ -44,21 +52,45 @@ function normalizeScopeConfirmationData(value: unknown): ScopeConfirmationData {
 export function loadScopeConfirmationData(): ScopeConfirmationData {
   try {
     const storedValue = localStorage.getItem(storageKey);
+    expectedStoredValue = storedValue;
     if (!storedValue) {
       return createDefaultScopeConfirmationData();
     }
 
     return normalizeScopeConfirmationData(JSON.parse(storedValue));
   } catch {
+    preserveUnreadDraft = true;
     return createDefaultScopeConfirmationData();
   }
 }
 
-export function saveScopeConfirmationData(data: ScopeConfirmationData): void {
-  localStorage.setItem(storageKey, JSON.stringify(data));
+export function saveScopeConfirmationData(data: ScopeConfirmationData): boolean {
+  if (preserveUnreadDraft) return false;
+
+  try {
+    // Best-effort conflict detection; localStorage has no atomic compare-and-swap.
+    if (localStorage.getItem(storageKey) !== expectedStoredValue) {
+      preserveUnreadDraft = true;
+      return false;
+    }
+    const serialized = JSON.stringify(data);
+    localStorage.setItem(storageKey, serialized);
+    expectedStoredValue = serialized;
+    return true;
+  } catch {
+    // Keep the current document usable when browser storage is unavailable or full.
+    return false;
+  }
 }
 
 export function clearScopeConfirmationData(): ScopeConfirmationData {
-  localStorage.removeItem(storageKey);
+  // An explicit reset authorizes replacing an unread draft.
+  preserveUnreadDraft = false;
+  try {
+    localStorage.removeItem(storageKey);
+    expectedStoredValue = null;
+  } catch {
+    // Reset the in-memory document even when browser storage is unavailable.
+  }
   return createDefaultScopeConfirmationData();
 }
