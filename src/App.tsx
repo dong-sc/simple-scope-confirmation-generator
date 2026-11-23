@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { ActionBar } from './components/ActionBar';
 import { AuthorPromoSection } from './components/AuthorPromoSection';
+import { CaseworkBar } from './components/CaseworkBar';
 import { DongToolsBar } from './components/DongToolsBar';
 import { Header } from './components/Header';
 import { ScopeConfirmationForm } from './components/ScopeConfirmationForm';
@@ -14,6 +15,7 @@ import {
   saveScopeConfirmationData,
 } from './utils/storage';
 import { generateScopeConfirmationPlainText } from './utils/scopeText';
+import { showCaseworkNext } from './utils/casework';
 
 function getPrintableTitle(title: string): string {
   const normalizedTitle = title.trim() || '服務範圍確認單';
@@ -59,12 +61,14 @@ export default function App() {
 
     window.addEventListener('afterprint', restoreTitle);
     window.print();
+    showCaseworkNext();
     window.setTimeout(restoreTitle, 1000);
   }
 
   return (
     <>
       <DongToolsBar />
+      <CaseworkBar />
       <Header />
       <main className="app-shell">
         <section className="workspace" aria-label="服務範圍確認單製作工作區">
@@ -80,6 +84,7 @@ export default function App() {
               onCopyText={handleCopyText}
               onPrint={handlePrint}
             />
+            <div data-casework-next />
             <ScopeConfirmationForm data={scopeData} onChange={setScopeData} />
           </div>
           <ScopeConfirmationPreview data={scopeData} />
